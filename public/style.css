@@ -1,0 +1,113 @@
+body {
+  margin: 82px 0 10px 0;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 500;
+  margin: 0;
+}
+
+.form-control:focus, 
+.form-control:active {
+  border-color: inherit;
+  outline: none;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+#songs li:not(:last-child),
+#results li:not(:last-child) {
+  border-bottom: #ECF0F1 1px solid;
+}
+
+#results li {
+  cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#autocomplete {
+  background-color: #fefefe;
+  margin: 0;
+}
+
+#autocomplete li {
+  padding: 10px;
+  border-bottom: #ECF0F1 1px solid;
+  cursor: pointer;
+}
+
+#autocomplete li:active,
+#results li:active {
+  background-color: #2C3E50;
+  color: #fefefe; 
+}
+
+.votes {
+  border: none;
+  background-color: #EEF2F4;
+  color: #BBB;
+}
+
+.search input {
+  border-color: #2C3E50;
+}
+
+.search .form-group {
+  margin-bottom: 0;
+}
+
+.btn-menu {
+  background-color: #2C3E50;
+  border-color: #2C3E50;
+}
+
+.song.ng-enter {
+  opacity:0;
+  transition:0.7s linear all;
+}
+
+.song.ng-enter.ng-enter-active {
+  opacity:1;  
+}
+
+.song.ng-leave {
+  position: relative;
+  left: 0;
+  transition:0.3s ease-out all;
+}
+
+.song.ng-leave.ng-leave-active {
+  position: relative;
+  left: -100%;
+  opacity: 0;
+}
+
+.loading, .empty-results {
+  padding: 15px;
+  text-align: center;
+  border: none !important;
+}
+
+.index {
+  color: #95A5A6;
+}
+
+@media(min-width: 768px) {
+  #songs li {
+    padding-top: 15px;
+  }
+}
+
+@media(max-width: 767px) {
+  body {
+    margin: 0;
+    margin-top: 64px;
+  }
+  .header {
+    padding: 10px 0;
+  }
+}

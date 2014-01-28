@@ -1,0 +1,107 @@
+<!doctype html>
+<html ng-app="tuna">
+  <head>
+    <title>tuna</title>
+    <!-- <meta name="viewport" content="initial-scale=1.0, user-scalable=no"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular-resource.min.js"></script>
+    <script src="//cdn.firebase.com/v0/firebase.js"></script>
+    <script src="//cdn.firebase.com/libs/angularfire/0.6.0/angularfire.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.7/fastclick.min.js"></script>
+    <script src="/lib/angular-loading-bar/loading-bar.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="/tuna.js"></script>
+
+    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css" rel="stylesheet"> -->
+    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="//bootswatch.com/flatly/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.0.0/animate.min.css" rel="stylesheet"> -->
+    <link href="/lib/angular-loading-bar/loading-bar.min.css" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+  </head>
+  <body ontouchstart="">
+    <div ng-controller="TunaCtrl">
+      
+      <div class="header well">
+        <div class="search container">
+          <form class="search-form form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button class="btn btn-default btn-menu" type="button">
+                    <i class="fa fa-bars"></i>
+                  </button>
+                </span>
+                <input class="form-control" id="search" type="text" ng-model="query" ng-change="search()" placeholder="search songs">
+                <span class="input-group-btn" ng-if="searching">
+                  <button class="btn btn-default btn-menu" type="button" ng-click="clearSearch()">
+                    <i class="fa fa-times-circle"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </form>
+
+          <!-- Autocomplete results -->
+          <ul class="list-unstyled" id="autocomplete">
+            <li ng-repeat="song in autocomplete" class="container" ng-click="filter(song)">
+              {{song}}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Song results after autocompete -->
+      <ul class="list-unstyled" id="results">
+        <li ng-if="loading" class="loading">
+          <h1><i class="fa fa-spinner fa-spin"></i></h1>
+        </li>
+        <li ng-if="emptyResults" class="empty-results">
+          <h4>No songs found :(</h4>
+          <button class="btn btn-default btn-menu" type="button" ng-click="clearSearch()">Clear Search</button>
+        </li>
+        <li ng-repeat="song in results" class="container" ng-click="addSong(song)">
+          <h4>{{song.title}} <small>{{song.artist}}</small></h4>
+        </li>
+      </ul>
+
+      <!-- Playlist -->
+      <ul class="list-unstyled" id="songs" ng-if="!searching">
+        <li ng-repeat="song in songs | orderByPriority" class="container song">
+          <div class="row">
+            <div class="col-sm-8 col-md-9 col-sm-push-4 col-md-push-3">
+              <h4><strong class="index">{{$index + 1}}.</strong> {{song.title}} <small>{{song.artist}}</small></h4>
+            </div>
+            <div class="col-sm-4 col-md-3 col-sm-pull-8 col-md-pull-9">
+              <div class="form-group buttons song-buttons">
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <button class="btn btn-success" type="button" ng-click="upvoteSong(song.$id)">
+                      <i class="fa fa-chevron-up"></i>
+                    </button>
+                  </span>
+                  <span class="form-control votes">{{song.$priority}}</span>
+                  <span class="input-group-btn">
+                    <button class="btn btn-danger" type="button" ng-click="downvoteSong(song.$id)">
+                      <i class="fa fa-chevron-down"></i>
+                    </button>
+                    <button class="btn btn-default" type="button" ng-click="removeSong(song.$id)">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+  </body>
+</html>
