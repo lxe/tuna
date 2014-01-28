@@ -88,12 +88,15 @@ tuna.controller('TunaCtrl', ['$scope', '$http', '$firebase',
       $scope.query        = '';
       $scope.searching    = false;
       $scope.emptyResults = false;
+      $scope.isAutoComplete = false;
       $('#search').focus();
     }
 
     $scope.filter = function (result) {
       $scope.loading = true;
+      $scope.isAutoComplete = false;
       $scope.autocomplete = [];
+      $scope.query = result;
       $http.get('/api/ts?q=' + result).success(function(data, status) {
         $scope.loading = false;
 
@@ -110,6 +113,11 @@ tuna.controller('TunaCtrl', ['$scope', '$http', '$firebase',
           }
         }).value();
       });
+    }
+
+    $scope.searchRaw = function() {
+      $scope.autocomplete = [];
+      $scope.filter($scope.query);
     }
 
     $scope.search = function() {
@@ -144,6 +152,7 @@ tuna.controller('TunaCtrl', ['$scope', '$http', '$firebase',
         }).map(function(el) {
           return el[0];
         }).uniq().value();
+        $scope.isAutoComplete = !!$scope.autocomplete.length;
       });
     };
 

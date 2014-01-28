@@ -29,16 +29,21 @@
       
       <div class="header well">
         <div class="search container">
-          <form class="search-form form-inline">
+          <form class="search-form form-inline" ng-submit="searchRaw()">
             <div class="form-group">
               <div class="input-group">
                 <span class="input-group-btn">
-                  <button class="btn btn-default btn-menu" type="button">
+                  <button class="btn btn-default btn-menu" type="button" id="menu">
                     <i class="fa fa-bars"></i>
                   </button>
                 </span>
-                <input class="form-control" id="search" type="text" ng-model="query" ng-change="search()" placeholder="search songs">
-                <span class="input-group-btn" ng-if="searching">
+                <input ng-class="{dropdown : autocomplete.length}" class="form-control" id="search" type="text" ng-model="query" ng-change="search()" placeholder="search songs">
+                <ul ng-if="autocomplete.length" class="list-unstyled" id="autocomplete">
+                  <li ng-repeat="song in autocomplete" ng-click="filter(song)">
+                    {{song}}
+                  </li>
+                </ul>
+                <span ng-if="searching" class="input-group-btn">
                   <button class="btn btn-default btn-menu" type="button" ng-click="clearSearch()">
                     <i class="fa fa-times-circle"></i>
                   </button>
@@ -46,13 +51,6 @@
               </div>
             </div>
           </form>
-
-          <!-- Autocomplete results -->
-          <ul class="list-unstyled" id="autocomplete">
-            <li ng-repeat="song in autocomplete" class="container" ng-click="filter(song)">
-              {{song}}
-            </li>
-          </ul>
         </div>
       </div>
 
