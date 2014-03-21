@@ -89,8 +89,8 @@ socket.on('error', function(err) {
   if (/array/i.test(Object.prototype.toString.call(err))) err = err.pop();
   alert(err.message || 'Something went wrong. Continue to fix this.');
   $('#loading').remove();
-  if (!err.message)
-    location.href = location.href;
+  // if (!err.message)
+  //  location.href = location.href;
 });
 
 $(window).on('load', function() {
